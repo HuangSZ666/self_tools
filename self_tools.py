@@ -7,6 +7,16 @@ import time
 from sentence_transformers import SentenceTransformer
 import chromadb
 
+os.makedirs("logs",exist_ok = True)
+logging.basicConfig(
+    level = logging.INFO,
+    format = '%(asctime)s - %(levelname)s - %(message)s',
+    handlers = [
+        logging.FileHandler("logs/process.log"),
+        logging.StreamHandler()
+    ]
+)
+
 def split_text(text,chunk_size = 500) :
     encoding = tiktoken.get_encoding("cl100k_base")
     tokens = encoding.encode(text)
@@ -67,15 +77,7 @@ def summarize_long_text(text,instruction,chunk_size,filename= None ):
         f.write(jieguo)
     return jieguo
 
-os.makedirs("logs",exist_ok = True)
-logging.basicConfig(
-    level = logging.INFO,
-    format = '%(asctime)s - %(levelname)s - %(message)s',
-    handlers = [
-        logging.FileHandler("logs/process.log"),
-        logging.StreamHandler()
-    ]
-)
+
 def process_folder(folder_path,output_dir = None):
     start_time = time.time()
     logging.info(f"开始处理文件夹:{folder_path}")
@@ -85,9 +87,10 @@ def process_folder(folder_path,output_dir = None):
     results =[]
     for file_name in os.listdir(folder_path):
         file_path = os.path.join(folder_path,file_name)
+        
         if os.path.isdir(file_path):  
             continue
-        if file_name.endswith(("csv","md","txt")):
+        if file_name.endswith(("csv", "md", "txt")) and not file_name.endswith("_summary.md"):
             file_path = os.path.join(folder_path,file_name)
             try:
                 with open (file_path,"r",encoding = "utf-8") as f:
@@ -177,3 +180,12 @@ def add_document_to_knowledge(file_path,collection,embedding_model,chunk_size = 
             embeddings = [emb.tolist()]
         )
     print(f"已存入{len(chunk_texts)}条数据")
+
+def store_summaries_to_knowledge(folder_path):
+    summary_folder = os.path.join(folder_path,"summaries")
+    model,collection = init_knowledge_base(offline = True)
+    for file_name in os.listdir(summary_folder):
+        if file_name.endswith("_summary.md"):
+            file_path = os.path.join(summary_folder,file_name)
+            add_document_to_knowledge(file_path,collection,model)
+    return model,collection     
