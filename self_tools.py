@@ -189,3 +189,21 @@ def store_summaries_to_knowledge(folder_path):
             file_path = os.path.join(summary_folder,file_name)
             add_document_to_knowledge(file_path,collection,model)
     return model,collection     
+
+
+def agent_decide(query):
+    prompt = f"""
+    用户问题:{query}
+    请判断：这个问题是否需要查询知识库？
+    - 如果需要，只输出：TOOL:knowledge
+    - 如果不需要，直接回答。
+    """
+    return ask_deepseek(query,prompt)
+
+def run_agent(query,collection,embedding_model):
+    decision = agent_decide(query)
+    if "TOOL:knowledge" in decision :
+        answer = ask_knowledgel(query,collection, embedding_model)
+    else:
+        answer = ask_deepseek(query,"直接回答这个问题")
+    return answer
