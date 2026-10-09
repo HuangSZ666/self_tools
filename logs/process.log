@@ -1,8 +1,0 @@
-2026-09-09 18:58:46,258 - INFO - 开始处理文件夹:M:/study/test_folder
-2026-09-09 18:58:48,071 - INFO - 已处理:knowledge.txt->M:/study/test_folder\summaries\knowledge_summary.md
-2026-09-09 18:58:55,110 - INFO - 已处理:报告_20260822_205734.md->M:/study/test_folder\summaries\报告_20260822_205734_summary.md
-2026-09-09 18:59:10,130 - INFO - 已处理:报告_20260824_193445.md->M:/study/test_folder\summaries\报告_20260824_193445_summary.md
-2026-09-09 18:59:10,132 - INFO - 处理完成,输出目录M:/study/test_folder\summaries
-2026-09-09 18:59:10,132 - INFO - 总耗时:23.87秒
-2026-09-09 18:59:10,135 - INFO - No device provided, using cpu
-2026-09-09 18:59:10,145 - INFO - Loading SentenceTransformer model from C:\Users\黄思哲/.cache/huggingface/hub/models--sentence-transformers--paraphrase-multilingual-MiniLM-L12-v2/snapshots/e8f8c211226b894fcb81acc59f3b34ba3efd5f42.
