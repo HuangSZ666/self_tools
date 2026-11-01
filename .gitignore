@@ -1,1 +1,4 @@
 .ipynb_checkpoints/
+__pycache__/
+logs/
+报告_*.md

@@ -203,7 +203,7 @@ def agent_decide(query):
 def run_agent(query,collection,embedding_model):
     decision = agent_decide(query)
     if "TOOL:knowledge" in decision :
-        answer = ask_knowledgel(query,collection, embedding_model)
+        answer = ask_knowledge(query,collection, embedding_model)
     else:
         answer = ask_deepseek(query,"直接回答这个问题")
     return answer
